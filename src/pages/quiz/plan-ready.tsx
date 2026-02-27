@@ -260,7 +260,7 @@ const PlanReady: NextPage = () => {
             </div>
           ) : (
             <div className={styles.discountText}>
-              Ваш персональний план готовий. Вартість — {price} грн.
+              Твій план виходу з хронічного стресу готовий. Сьогодні −50%: забери за {price} грн замість 298 грн.
             </div>
           )}
           <button className={styles.getPlanButton} onClick={handleGetPlan}>
@@ -459,22 +459,40 @@ const PlanReady: NextPage = () => {
           <div className={styles.pricingSectionWrapper}>
             <div id="pricing-section" className={styles.pricingSection}>
               <div className={styles.discountBanner}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.bannerClockIcon}>
-                  <g id="icon_customer">
-                    <g id="Group">
-                      <path id="Vector" d="M9.00828 1H7.00356C6.73847 1 6.52308 1.21539 6.52308 1.48047C6.52308 1.74555 6.73847 1.96094 7.00356 1.96094H9.00828C9.27336 1.96094 9.48875 1.74555 9.48875 1.48047C9.48875 1.21539 9.27336 1 9.00828 1ZM14.3597 4.1645L13.0509 2.85564C12.8686 2.67339 12.5704 2.67339 12.3716 2.85564C12.1894 3.03789 12.1894 3.33611 12.3716 3.53492L13.6639 4.82722C13.7633 4.92664 13.8793 4.95978 13.9953 4.95978C14.1112 4.95978 14.2438 4.91009 14.3266 4.82722C14.542 4.64497 14.542 4.34675 14.3597 4.1645ZM7.99764 3.00472C4.68403 3.00472 2 5.68875 2 9.00236C2 12.316 4.68403 15 7.99764 15C11.3112 15 13.9952 12.316 13.9952 9.00236C13.9952 5.68875 11.3112 3.00472 7.99764 3.00472ZM10.4828 9.6485H7.99764C7.73256 9.6485 7.51717 9.43311 7.51717 9.16802V6.05325C7.51717 5.78817 7.73256 5.57278 7.99764 5.57278C8.26272 5.57278 8.47811 5.78817 8.47811 6.05325V8.70414H10.4828C10.7479 8.70414 10.9633 8.91953 10.9633 9.18461C10.9633 9.43314 10.7479 9.6485 10.4828 9.6485Z" fill="white"></path>
-                    </g>
-                  </g>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={styles.bannerClockIcon}
+                >
+                  <path
+                    d="M5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12Z"
+                    stroke="white"
+                    strokeWidth="1.8"
+                  />
+                  <path
+                    d="M12 8V12L14.5 13"
+                    stroke="white"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
                 <span className={styles.bannerDiscountText}>
-                  Оплата через WayForPay займає кілька хвилин. Сесія оплати активна протягом доби.
+                  Сьогодні −50%: замість 298 грн план коштує {price} грн.
                 </span>
               </div>
 
               <div className={styles.priceContainer}>
+                <div className={styles.priceOldContainer}>
+                  <span className={styles.priceOld}>298 грн</span>
+                  <span className={styles.priceOldLabel}>звичайна ціна</span>
+                </div>
                 <div className={styles.priceNewContainer}>
                   <span className={styles.priceNew}>{price} грн</span>
-                  <span className={styles.priceNewLabel}>одноразовий платіж</span>
+                  <span className={styles.priceNewLabel}>сьогодні −50% на старт</span>
                 </div>
               </div>
 

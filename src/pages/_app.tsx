@@ -48,7 +48,7 @@ export default function App({ Component, pageProps }: AppProps) {
               t.src=v;s=b.getElementsByTagName(e)[0];
               s.parentNode.insertBefore(t,s)}(window, document,'script',
               'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '1664839318294588');
+              fbq('init', '1459706045585754');
               fbq('track', 'PageView');
             `,
           }}
@@ -58,7 +58,7 @@ export default function App({ Component, pageProps }: AppProps) {
             height="1"
             width="1"
             style={{ display: 'none' }}
-            src="https://www.facebook.com/tr?id=1664839318294588&ev=PageView&noscript=1"
+            src="https://www.facebook.com/tr?id=1459706045585754&ev=PageView&noscript=1"
             alt=""
           />
         </noscript>
