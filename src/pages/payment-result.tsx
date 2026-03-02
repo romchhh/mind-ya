@@ -2,132 +2,170 @@ import React, { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
+import Header from '@/components/Header/Header';
+import QuizFooter from '@/components/QuizFooter/QuizFooter';
+import { trackEvent } from '@/lib/analyticsClient';
+import styles from './payment-result.module.css';
 
 const BOT_URL = 'https://t.me/mindyaaa_bot?start=ZGw6MzE0Njgz';
 
 const PaymentResult: NextPage = () => {
   const router = useRouter();
   const [status, setStatus] = useState<'loading' | 'success' | 'failure'>('loading');
+  const [orderRef, setOrderRef] = useState<string | null>(null);
 
   useEffect(() => {
     if (!router.isReady) return;
 
-    // WayForPay може передавати параметри різними способами
-    const { transactionStatus, status, orderStatus, orderReference } = router.query;
-    const statusStr = String(transactionStatus || status || orderStatus || '').toLowerCase();
+    const { transactionStatus, status: qsStatus, orderStatus, orderReference } = router.query;
+    const statusStr = String(transactionStatus || qsStatus || orderStatus || '').toLowerCase();
 
-    // Діагностичне логування
-    console.log('=== Payment Result Page ===');
-    console.log('Router query:', router.query);
-    console.log('URL:', window.location.href);
-    console.log('Transaction status:', transactionStatus);
-    console.log('Status:', status);
-    console.log('Order reference:', orderReference);
-    console.log('==========================');
+    const urlParams = typeof window !== 'undefined'
+      ? new URLSearchParams(window.location.search)
+      : null;
+    const urlStatus =
+      urlParams?.get('transactionStatus') || urlParams?.get('status') || '';
+    const finalStatus = (statusStr || urlStatus || '').toLowerCase();
 
-    // Перевіряємо чи був перехід на оплату
-    const paymentAttempted = sessionStorage.getItem('paymentAttempted');
-    
-    // Додаткова перевірка через URL параметри (якщо WayForPay передає в URL)
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlStatus = urlParams.get('transactionStatus') || urlParams.get('status') || '';
-    const finalStatus = statusStr || urlStatus.toLowerCase();
-    
-    console.log('Final status:', finalStatus);
-    
-    if (finalStatus === 'approved' || finalStatus === 'inprocessing' || finalStatus === 'ok') {
-      // Очищаємо маркер спроби оплати
-      sessionStorage.removeItem('paymentAttempted');
-      // Перенаправляємо одразу без показу сторінки
-      window.location.href = BOT_URL;
-      return;
-    } else {
-      // Якщо статус не знайдено, але була спроба оплати - перевіряємо через callback
-      // Якщо callback був успішний, перенаправляємо на бот
-      if (paymentAttempted === 'true') {
-        // Перевіряємо, чи не був успішний callback (якщо callback працював, платіж успішний)
-        // Оскільки callback обробляється на сервері, а ми тут на клієнті,
-        // просто перенаправляємо на бот, якщо немає явного статусу відмови
-        if (!finalStatus || finalStatus === '' || finalStatus === 'undefined') {
-          // Якщо статус не передано, але була спроба оплати - вважаємо успішним
-          // (оскільки callback вже обробив успішний платіж)
-          sessionStorage.removeItem('paymentAttempted');
-          window.location.href = BOT_URL;
-          return;
-        }
-      }
-      
-      setStatus('failure');
-      // Очищаємо маркер спроби оплати
-      if (paymentAttempted === 'true') {
-        sessionStorage.removeItem('paymentAttempted');
-      }
+    const refFromQuery = String(orderReference || urlParams?.get('orderReference') || '');
+    if (refFromQuery) {
+      setOrderRef(refFromQuery);
     }
-  }, [router.isReady, router.query, router]);
 
-  if (status === 'loading') {
+    const paymentAttempted =
+      typeof window !== 'undefined'
+        ? window.sessionStorage.getItem('paymentAttempted')
+        : null;
+
+    if (finalStatus === 'approved' || finalStatus === 'inprocessing' || finalStatus === 'ok') {
+      setStatus('success');
+      if (typeof window !== 'undefined') {
+        window.sessionStorage.removeItem('paymentAttempted');
+      }
+      trackEvent({
+        type: 'payment_success',
+        page: '/payment-result',
+        label: 'wayforpay',
+        metadata: { orderReference: refFromQuery || undefined },
+      });
+    } else {
+      setStatus('failure');
+      if (paymentAttempted === 'true' && typeof window !== 'undefined') {
+        window.sessionStorage.removeItem('paymentAttempted');
+      }
+      trackEvent({
+        type: 'payment_fail',
+        page: '/payment-result',
+        label: 'wayforpay',
+        metadata: {
+          orderReference: refFromQuery || undefined,
+          rawStatus: finalStatus || null,
+        },
+      });
+    }
+  }, [router.isReady, router.query]);
+
+  const handleGoToBot = () => {
+    if (typeof window !== 'undefined') {
+      window.location.href = BOT_URL;
+    }
+  };
+
+  const handleBackToPlan = () => {
+    router.push('/quiz/plan-ready');
+  };
+
+  const renderContent = () => {
+    if (status === 'loading') {
+      return (
+        <div className={styles.card}>
+          <div className={styles.spinner} />
+          <p className={styles.loadingText}>Обробляємо результат оплати…</p>
+        </div>
+      );
+    }
+
+    if (status === 'success') {
+      return (
+        <div className={styles.card}>
+          <div className={`${styles.iconWrapper} ${styles.iconSuccess}`} aria-hidden="true">
+            <svg
+              className={styles.iconSvg}
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+              <path
+                d="M7.5 12.5L10.5 15.5L16.5 9.5"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+          <h1 className={styles.title}>Оплата пройшла успішно</h1>
+          <p className={styles.text}>
+            Дякуємо за довіру до Mind Я. Твій доступ до 3-денного плану вже готовий.
+          </p>
+          {orderRef && (
+            <p className={styles.meta}>
+              Номер замовлення:&nbsp;<strong>{orderRef}</strong>
+            </p>
+          )}
+          <button className={styles.buttonPrimary} onClick={handleGoToBot}>
+            Перейти до Telegram-бота
+          </button>
+          <button className={styles.buttonSecondary} onClick={handleBackToPlan}>
+            Повернутись на сторінку плану
+          </button>
+        </div>
+      );
+    }
+
     return (
-      <>
-        <Head>
-          <title>Обробка оплати - Mind Я</title>
-        </Head>
-        <main
-          style={{
-            minHeight: '100vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            gap: '1rem',
-            padding: '2rem',
-          }}
-        >
-          <p>Обробка результатів оплати...</p>
-        </main>
-      </>
+      <div className={styles.card}>
+        <div className={`${styles.iconWrapper} ${styles.iconFail}`} aria-hidden="true">
+          <svg
+            className={styles.iconSvg}
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+            <path
+              d="M9 9L15 15M15 9L9 15"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+        <h1 className={styles.title}>Оплата не пройшла</h1>
+        <p className={styles.text}>
+          На жаль, оплату не вдалося завершити. Спробуй ще раз або обери інший спосіб оплати.
+        </p>
+        <button className={styles.buttonPrimary} onClick={handleBackToPlan}>
+          Повернутись до оплати
+        </button>
+      </div>
     );
-  }
+  };
 
   return (
     <>
       <Head>
-        <title>Оплата не пройшла - Mind Я</title>
+        <title>
+          {status === 'success' ? 'Оплата успішна - Mind Я' : 'Результат оплати - Mind Я'}
+        </title>
       </Head>
-      <main
-        style={{
-          minHeight: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          gap: '1.5rem',
-          padding: '2rem',
-          maxWidth: '400px',
-          margin: '0 auto',
-        }}
-      >
-        <h1 style={{ color: '#5671A6', fontSize: '1.5rem', textAlign: 'center' }}>
-          Оплата не пройшла
-        </h1>
-        <p style={{ textAlign: 'center', lineHeight: 1.6 }}>
-          На жаль, вашу оплату не вдалося завершити. Спробуйте ще раз або зверніться до підтримки.
-        </p>
-        <Link
-          href="/quiz/plan-ready"
-          style={{
-            display: 'inline-block',
-            padding: '12px 24px',
-            backgroundColor: '#5671A6',
-            color: 'white',
-            borderRadius: '8px',
-            textDecoration: 'none',
-            fontWeight: 600,
-          }}
-        >
-          Повернутись до оплати
-        </Link>
-      </main>
+      <div className={styles.page}>
+        <Header />
+        <main className={styles.main}>{renderContent()}</main>
+        <QuizFooter />
+      </div>
     </>
   );
 };

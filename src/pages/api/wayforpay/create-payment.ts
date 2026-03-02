@@ -27,7 +27,7 @@ export default async function handler(
     console.log('NEXT_PUBLIC_APP_URL:', process.env.NEXT_PUBLIC_APP_URL);
     console.log('Request price:', req.body?.price);
     console.log('===========================');
-    const price = typeof req.body?.price === 'number' ? req.body.price : 149;
+    const price = typeof req.body?.price === 'number' ? req.body.price : 1;
     const product: WayForPayProduct = {
       name: PRODUCT_NAME_SHORT,
       price,

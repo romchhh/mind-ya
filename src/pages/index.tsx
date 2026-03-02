@@ -26,48 +26,54 @@ const Home: NextPage = () => {
       </Head>
       <Header />
       <main className={styles.main}>
-        <h1 className={styles.title}>
-        ДЛЯ ЖІНОК, ЯКІ ВТОМИЛИСЬ БУТИ <span className={styles.gradientText}>«СИЛЬНИМИ»</span>
-        </h1>
-        <p className={styles.subtitle}>
-        Тест за 2 хвилини покаже твій тип стресута що саме допоможе в твоїй ситуації
-        </p>
-        
-        <section className={styles.quiz}>
-          <h2 className={styles.quizQuestion}>Скільки тобі років?</h2>
-          <div className={styles.quizOptions}>
-            <button className={styles.quizButton} onClick={() => handleQuizStart('18-25')}>
-              <span className={styles.quizButtonText}>18-25</span>
-              <span className={styles.quizArrow}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </span>
-            </button>
-            <button className={styles.quizButton} onClick={() => handleQuizStart('26-35')}>
-              <span className={styles.quizButtonText}>26-35</span>
-              <span className={styles.quizArrow}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </span>
-            </button>
-            <button className={styles.quizButton} onClick={() => handleQuizStart('36-45')}>
-              <span className={styles.quizButtonText}>36-45</span>
-              <span className={styles.quizArrow}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </span>
-            </button>
-            <button className={styles.quizButton} onClick={() => handleQuizStart('46+')}>
-              <span className={styles.quizButtonText}>46+</span>
-              <span className={styles.quizArrow}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </span>
-            </button>
+        <section className={styles.hero}>
+          <div className={styles.heroInner}>
+            <h1 className={styles.title}>
+              ДЛЯ ЖІНОК, ЯКІ ВТОМИЛИСЬ БУТИ <span className={styles.gradientText}>«СИЛЬНИМИ»</span>
+            </h1>
+            <p className={styles.subtitle}>
+              Тест за 2 хвилини покаже твій тип стресу&nbsp;
+              <span className={styles.subtitleStrong}>та що саме допоможе в твоїй ситуації.</span>
+            </p>
+
+            <section className={styles.quiz}>
+              <h2 className={styles.quizQuestion}>Скільки тобі років?</h2>
+              <p className={styles.quizHint}>Обери свій вік, щоб продовжити діагностику</p>
+              <div className={styles.quizOptions}>
+                <button className={styles.quizButton} onClick={() => handleQuizStart('18-25')}>
+                  <span className={styles.quizButtonText}>18–25</span>
+                  <span className={styles.quizArrow}>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </button>
+                <button className={styles.quizButton} onClick={() => handleQuizStart('26-35')}>
+                  <span className={styles.quizButtonText}>26–35</span>
+                  <span className={styles.quizArrow}>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </button>
+                <button className={styles.quizButton} onClick={() => handleQuizStart('36-45')}>
+                  <span className={styles.quizButtonText}>36–45</span>
+                  <span className={styles.quizArrow}>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </button>
+                <button className={styles.quizButton} onClick={() => handleQuizStart('46+')}>
+                  <span className={styles.quizButtonText}>46+</span>
+                  <span className={styles.quizArrow}>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </section>
           </div>
         </section>
 

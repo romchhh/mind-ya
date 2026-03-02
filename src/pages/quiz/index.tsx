@@ -156,6 +156,30 @@ const Quiz: NextPage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentStepNumber]);
 
+  const handleQuestionOptionClick = (optionId: number) => {
+    if (!currentStep || currentStep.type !== 'question') return;
+
+    setSelectedOption(optionId);
+
+    // Зберігаємо відповідь для одиночного вибору одразу при кліку
+    setAnswers((prev) => ({ ...prev, [currentStepNumber]: optionId }));
+
+    // Позначаємо крок як завершений
+    if (!completedSteps.includes(currentStepNumber)) {
+      setCompletedSteps((prev) => [...prev, currentStepNumber]);
+    }
+
+    // Автоматичний перехід на наступний крок
+    if (currentStepNumber < totalSteps) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      router.push(`/quiz?step=${currentStepNumber + 1}`, undefined, { shallow: true });
+    } else {
+      // Завершення тесту - перехід на сторінку аналізу
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      router.push('/quiz/analyzing');
+    }
+  };
+
 
   const handleNext = () => {
     if (currentStep?.type === 'question' && selectedOption !== null) {
@@ -284,7 +308,7 @@ const Quiz: NextPage = () => {
                     className={`${styles.optionCard} ${
                       selectedOption === option.id ? styles.optionCardSelected : ''
                     }`}
-                    onClick={() => setSelectedOption(option.id)}
+                    onClick={() => handleQuestionOptionClick(option.id)}
                   >
                     <div className={styles.optionContent}>
                       <div className={styles.optionText}>
@@ -390,54 +414,57 @@ const Quiz: NextPage = () => {
             ) : null}
 
             {showNavigationButtons && currentStep && (
-            <div className={styles.navigationButtons}>
-              <button
-                className={styles.backButton}
-                onClick={handleBack}
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12 15L7 10L12 5"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <span>Назад</span>
-              </button>
-              <button
-                className={styles.nextButton}
-                onClick={handleNext}
-                disabled={
-                    (currentStep.type === 'question' && selectedOption === null) ||
-                    (currentStep.type === 'multiple' && selectedMultipleOptions.length === 0)
-                }
-              >
-                <span>Далі</span>
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M8 5L13 10L8 15"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-            </div>
+              <div className={styles.navigationBar}>
+                <div className={styles.navigationButtons}>
+                  <button
+                    className={styles.backButton}
+                    onClick={handleBack}
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 15L7 10L12 5"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <span>Назад</span>
+                  </button>
+                  {currentStep.type !== 'question' && (
+                    <button
+                      className={styles.nextButton}
+                      onClick={handleNext}
+                      disabled={
+                        (currentStep.type === 'multiple' && selectedMultipleOptions.length === 0)
+                      }
+                    >
+                      <span>Далі</span>
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8 5L13 10L8 15"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  )}
+                </div>
+              </div>
             )}
           </div>
         )}

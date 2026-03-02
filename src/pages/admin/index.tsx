@@ -110,6 +110,16 @@ export default function AdminDashboard({ summary }: AdminProps) {
                 </div>
               </div>
               <div className={styles.kpi}>
+                <div className={styles.kpiLabel}>Успішних оплат (вебхук)</div>
+                <div className={styles.kpiValue}>{totals.paymentSuccessWebhook}</div>
+              </div>
+              <div className={styles.kpi}>
+                <div className={styles.kpiLabel}>Візитів на /payment-result?approved</div>
+                <div className={styles.kpiValue}>
+                  {totals.paymentResultApprovedViews}
+                </div>
+              </div>
+              <div className={styles.kpi}>
                 <div className={styles.kpiLabel}>Виходів на /quiz/plan-ready</div>
                 <div className={styles.kpiValue}>
                   {planReadyExits}

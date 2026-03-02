@@ -19,7 +19,7 @@ export const infoPageComponents: Record<string, ComponentType<any>> = {
   // Додавайте нові компоненти тут
   'default-info': DefaultInfoPage,
   'info-step2-feedback': InfoPageStep2Feedback,
-  'info-chronic-stress': InfoPagePractice,
+  'info-chronic-stress': InfoPageChronicStress,
   'info-solution': InfoPageSolution,
 };
 

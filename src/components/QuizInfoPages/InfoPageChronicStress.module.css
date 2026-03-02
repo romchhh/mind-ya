@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0px 20px;
+  padding: 0px 20px 24px 20px;
 }
 
 .content {
@@ -14,6 +14,8 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  min-height: calc(100vh - 80px);
+  padding-top: 8px;
 }
 
 .badge {
@@ -125,6 +127,21 @@
   object-fit: contain;
 }
 
+.ctaBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 16px calc(12px + env(safe-area-inset-bottom, 0));
+  background: radial-gradient(circle at top, rgba(26, 26, 26, 0.96), rgba(15, 23, 42, 0.98));
+  box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  z-index: 1000;
+}
+
 .researchBadge {
   display: flex;
   align-items: center;
@@ -154,16 +171,18 @@
   box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
   color: #1a1a1a;
   border: none;
-  border-radius: 8px;
+  border-radius: 999px;
   font-size: 18px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 20px;
+  margin-top: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
+  min-width: 260px;
+  max-width: 360px;
 }
 
 .continueButton svg {
@@ -177,7 +196,7 @@
 .continueButton:hover {
   background-color: #f0f0f0;
   transform: translateY(-2px);
-  box-shadow: 1px 5px 20px 8px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 16px 40px rgba(255, 255, 255, 0.22);
 }
 
 .continueButton:hover svg {
@@ -190,8 +209,11 @@
 
 @media (max-width: 768px) {
   .infoPage {
-    padding: 0px 20px 20px 20px;
-    min-height: calc(100vh - 150px);
+    padding: 0px 16px 18px 16px;
+  }
+
+  .content {
+    min-height: calc(100vh - 70px);
   }
 
   .badge {
@@ -262,10 +284,10 @@
   }
 
   .continueButton {
-    padding: 14px 28px;
+    padding: 14px 24px;
     font-size: 16px;
     width: 100%;
-    max-width: 300px;
+    max-width: 100%;
   }
 }
 

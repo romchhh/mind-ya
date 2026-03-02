@@ -113,6 +113,15 @@ export async function getAnalyticsSummary() {
   const paymentAttempts = events.filter((e) => e.type === 'payment_attempt');
   const paymentSuccess = events.filter((e) => e.type === 'payment_success');
 
+  const paymentSuccessWebhook = paymentSuccess.filter(
+    (e) => e.page === '/quiz/plan-ready'
+  ).length;
+
+  const paymentResultApprovedViews = pageViews.filter((e) =>
+    e.page.startsWith('/payment-result') &&
+    e.page.includes('transactionStatus=approved')
+  ).length;
+
   const pageViewsByPath: Record<string, number> = {};
   for (const pv of pageViews) {
     pageViewsByPath[pv.page] = (pageViewsByPath[pv.page] || 0) + 1;
@@ -169,6 +178,8 @@ export async function getAnalyticsSummary() {
       clicks: clicks.length,
       paymentAttempts: paymentAttempts.length,
       paymentSuccess: paymentSuccess.length,
+      paymentSuccessWebhook,
+      paymentResultApprovedViews,
       paymentConversionRate:
         paymentAttempts.length > 0
           ? paymentSuccess.length / paymentAttempts.length

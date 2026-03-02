@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0px 20px 40px 20px;
+  padding: 0px 20px 24px 20px;
 }
 
 .content {
@@ -14,6 +14,8 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  min-height: calc(100vh - 80px);
+  padding-top: 8px;
 }
 
 .textBlock {
@@ -125,22 +127,38 @@
   object-fit: contain;
 }
 
+.ctaBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 16px calc(12px + env(safe-area-inset-bottom, 0));
+  background: radial-gradient(circle at top, rgba(255, 248, 240, 0.96), rgba(255, 220, 193, 0.96));
+  box-shadow: 0 -6px 24px rgba(148, 81, 40, 0.18);
+  display: flex;
+  justify-content: center;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  z-index: 1000;
+}
+
 .continueButton {
   padding: 16px 32px;
   background-color: #10b981;
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 999px;
   font-size: 18px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 20px;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
+  min-width: 260px;
+  max-width: 360px;
 }
 
 .continueButton svg {
@@ -154,7 +172,7 @@
 .continueButton:hover {
   background-color: #059669;
   transform: translateY(-2px);
-  box-shadow: 1px 5px 20px 8px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 16px 40px rgba(16, 185, 129, 0.45);
 }
 
 .continueButton:hover svg {
@@ -167,8 +185,11 @@
 
 @media (max-width: 768px) {
   .infoPage {
-    padding: 0px 20px 20px 20px;
-    min-height: calc(100vh - 150px);
+    padding: 0px 16px 18px 16px;
+  }
+
+  .content {
+    min-height: calc(100vh - 70px);
   }
 
   .textBlock {
@@ -225,10 +246,10 @@
   }
 
   .continueButton {
-    padding: 14px 28px;
+    padding: 14px 24px;
     font-size: 16px;
     width: 100%;
-    max-width: 300px;
+    max-width: 100%;
   }
 }
 
