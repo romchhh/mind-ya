@@ -584,7 +584,7 @@ const PlanReady: NextPage = () => {
                     fill="#10b981"
                   ></path>
                 </svg>
-                <span>вечірні аудіо 7-10 хв + швидкі техніки &quot;коли накриває&quot;</span>
+                <span>вечірні аудіо 7-10 хв + швидкі техніки &quot;коли  накриває&quot;</span>
               </li>
               <li className={styles.benefitItem}>
                 <svg
