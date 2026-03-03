@@ -1,8 +1,11 @@
 .stickyHeader {
   position: relative;
-  background-color: #fff;
+  background-color: #ffffff;
   padding: 18px 20px 10px;
   width: 100%;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+  backdrop-filter: blur(8px);
 }
 
 .stickyHeaderHidden {
@@ -20,14 +23,21 @@
 }
 
 .discountText {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  flex: 1 1 auto;
+  min-width: 220px;
+  max-width: 360px;
+  padding: 8px 14px;
   font-size: 16px;
   font-weight: 600;
-  color: #000;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-  min-width: 200px;
+  color: #991b1b;
+  background: linear-gradient(90deg, #fff7ed, #fee2e2);
+  border-radius: 999px;
+  border: 1px solid rgba(248, 113, 113, 0.5);
+  box-shadow: 0 10px 22px rgba(248, 113, 113, 0.25);
 }
 
 .logoContainer {
@@ -44,37 +54,58 @@
 }
 
 .timer {
-  color: #e44240;
+  color: #b91c1c;
   font-weight: 700;
   font-size: 18px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.3);
+  animation: timerPulse 1.2s ease-in-out infinite alternate;
 }
 
 .getPlanButton {
-  background-color: #e44240;
-  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f97316, #ef4444);
+  color: #ffffff;
   border: none;
-  border-radius: 12px;
-  padding: 15px 25px;
+  border-radius: 999px;
+  padding: 15px 28px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(228, 66, 64, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 10px 24px rgba(248, 113, 113, 0.45);
   white-space: nowrap;
 }
 
 .getPlanButton:hover {
-  background-color: #d63937;
+  background: linear-gradient(135deg, #fb923c, #f97316);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(228, 66, 64, 0.4);
+  box-shadow: 0 14px 30px rgba(248, 113, 113, 0.55);
 }
 
 .getPlanButton:active {
   transform: translateY(0);
 }
 
+@keyframes timerPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.3);
+  }
+  100% {
+    transform: scale(1.04);
+    box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.15);
+  }
+}
+
 .pageWrapper {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   padding-bottom: 88px;
   background:
     radial-gradient(circle at top, #e0f2fe 0, rgba(224, 242, 254, 0.2) 35%, transparent 60%),
@@ -83,6 +114,7 @@
 }
 
 .main {
+  flex: 1 0 auto;
   background-color: transparent;
   padding: 40px 20px 40px;
 }
@@ -93,6 +125,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 32px 20px 0;
 }
 
 .title {
@@ -100,11 +133,17 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-size: 32px;
-  font-weight: 700;
-  color: #000;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: radial-gradient(circle at top left, #eef2ff 0, #ffffff 45%, #fee2e2 100%);
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.12),
+    0 0 0 1px rgba(148, 163, 184, 0.35);
+  font-size: 30px;
+  font-weight: 800;
+  color: #111827;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   line-height: 1.3;
   max-width: 800px;
 }
@@ -125,11 +164,12 @@
 }
 
 .description {
-  font-size: 20px;
-  font-weight: 600;
-  color: #000;
+  font-size: 18px;
+  font-weight: 500;
+  color: #4b5563;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 28px;
+  max-width: 640px;
 }
 
 .resultSection {
@@ -421,6 +461,37 @@
   height: 20px;
   color: #10b981;
   margin-top: 2px;
+}
+
+.offerSummarySection {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 30px;
+  padding: 24px 28px;
+  border-radius: 18px;
+  background-color: #ffffff;
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  text-align: center;
+}
+
+.offerSummaryTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.offerSummaryPrice {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e44240;
+  margin-bottom: 4px;
+}
+
+.offerSummaryText {
+  font-size: 16px;
+  color: #4b5563;
 }
 
 @media (max-width: 768px) {
@@ -775,6 +846,19 @@
   border-radius: 20px;
   box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
   border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.pricingTitle {
+  font-size: 24px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.pricingSubtitle {
+  font-size: 16px;
+  color: #4b5563;
+  margin: 0 0 4px 0;
 }
 
 .discountBanner {

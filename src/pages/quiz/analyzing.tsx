@@ -36,58 +36,50 @@ const Analyzing: NextPage = () => {
     };
   }, []);
 
-  const animationFrameRef = useRef<number | null>(null);
-
   useEffect(() => {
     // Невелика затримка для коректного рендерингу перед початком анімації
     const initDelay = setTimeout(() => {
-      // Анімація прогрес-бару протягом 9 секунд (0% -> 100%)
-      const startTime = Date.now();
-      const duration = 10000; // 10 секунд
-      const targetProgress = 100;
+      // Анімація прогрес-бару (0% -> 100%) через setInterval, щоб уникнути зависань
+      const duration = 6000; // ~6 секунд
+      const stepMs = 100;
+      const steps = duration / stepMs;
+      const stepValue = 100 / steps;
 
-      const updateProgress = () => {
-        const elapsed = Date.now() - startTime;
-        const newProgress = Math.min((elapsed / duration) * targetProgress, targetProgress);
-        setProgress(Math.round(newProgress * 10) / 10); // Округлюємо до 1 знака після коми
+      let current = 0;
+      const intervalId = setInterval(() => {
+        current = Math.min(current + stepValue, 100);
+        setProgress(Math.round(current));
 
-        if (newProgress < targetProgress) {
-          animationFrameRef.current = requestAnimationFrame(updateProgress);
-        } else {
-          setProgress(targetProgress);
+        if (current >= 100) {
+          clearInterval(intervalId);
           // Після завершення "аналізу" одразу переходимо на продуктову сторінку
           window.scrollTo({ top: 0, behavior: 'smooth' });
           router.push('/quiz/plan-ready');
         }
-      };
-
-      animationFrameRef.current = requestAnimationFrame(updateProgress);
+      }, stepMs);
     }, 50); // Невелика затримка для коректного рендерингу
 
-    // Пункт 1: Замінюємо спінер на галочку через 3 секунди
+    // Пункт 1: Замінюємо спінер на галочку
     const check1CompleteTimer = setTimeout(() => {
       setCheck1Status('completed');
-    }, 2500);
+    }, 1500);
 
-    // Пункт 2: Замінюємо спінер на галочку через 6 секунд
+    // Пункт 2: Замінюємо спінер на галочку
     const check2CompleteTimer = setTimeout(() => {
       setCheck2Status('completed');
-    }, 5000);
+    }, 3000);
 
-    // Пункт 3: Замінюємо спінер на галочку через 9 секунд
+    // Пункт 3: Замінюємо спінер на галочку
     const check3CompleteTimer = setTimeout(() => {
       setCheck3Status('completed');
-    }, 7500);
+    }, 4500);
 
     const check4CompleteTimer = setTimeout(() => {
       setCheck4Status('completed');
-    }, 10000);
+    }, 6000);
 
     return () => {
       clearTimeout(initDelay);
-      if (animationFrameRef.current !== null) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
       clearTimeout(check1CompleteTimer);
       clearTimeout(check2CompleteTimer);
       clearTimeout(check3CompleteTimer);

@@ -2,7 +2,7 @@
   background-color: #fff;
   padding-top: 20px;
   --theme-progress-checkmark: #fff;
-  min-height: calc(100vh - 200px);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
